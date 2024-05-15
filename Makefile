@@ -3,6 +3,7 @@
 .PHONY: deploy
 
 deploy :; @forge script script/DeployTokenizedRWA.s.sol --private-key ${PRIVATE_KEY} --rpc-url ${SEPOLIA_RPC_URL} --etherscan-api-key ${ETHERSCAN_KEY} --priority-gas-price 1 --verify --broadcast
+interact :; @forge script script/InteractTokenizedRWA.s.sol --private-key ${PRIVATE_KEY} --rpc-url ${SEPOLIA_RPC_URL}  --broadcast
 
 # forge verify-contract \
 # --chain-id 11155111 \
