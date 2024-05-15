@@ -2,8 +2,8 @@ const alpacaRequest = Functions.makeHttpRequest({
   url: "https://paper-api.alpaca.markets/v2/account",
   headers: {
     accept: 'application/json',
-    'APCA-API-KEY-ID': 'PKT1TUEA0ON7DWV01J2E',
-    'APCA-API-SECRET-KEY': '0oDGWAKtGtt64Rd2FcEd6YcRj01Ca3hnaAuMaimY'
+    'APCA-API-KEY-ID': secrets.alpacaKey,
+    'APCA-API-SECRET-KEY': secrets.alpacaSecret
   }
 })
 

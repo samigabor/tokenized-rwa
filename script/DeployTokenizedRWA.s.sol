@@ -2,7 +2,6 @@
 pragma solidity ^0.8.25;
 
 import { Script } from "forge-std/Script.sol";
-import { Config } from "../src/Config.sol";
 import { TokenizedRWA } from "../src/TokenizedRWA.sol";
 import { console2 } from "forge-std/console2.sol";
 
