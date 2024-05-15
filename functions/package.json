@@ -1,0 +1,16 @@
+{
+  "name": "tokenized-rwa",
+  "description": "Tokenized real world assets with backed off-chain collateral",
+  "version": "1.0.0",
+  "author": "Sami Gabor",
+  "license": "ISC",
+  "main": "index.js",
+  "scripts": {
+    "simulate": "node ./simulators/alpacaMintSimulator.js",
+    "uploadSecrets": "source ../.env && node ./uploadSecrets.js"
+  },
+  "dependencies": {
+    "@chainlink/functions-toolkit": "^0.2.8",
+    "dotenv": "^16.4.5"
+  }
+}
