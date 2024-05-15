@@ -36,7 +36,7 @@ contract TokenizedRWA is FunctionsClient, ERC20 {
         uint64 subscriptionId,
         address functionsRouter,
         uint32 callbackGasLimit,
-        string memory getBalanceSourceCode,
+        // string memory getBalanceSourceCode,
         uint256 minWithdrawalAmount
     ) FunctionsClient(functionsRouter) ERC20("dTSLA", "Tokenized Tesla") {
         s_donId = donId;
@@ -45,7 +45,7 @@ contract TokenizedRWA is FunctionsClient, ERC20 {
         s_subscriptionId = subscriptionId;
         s_functionsRouter = functionsRouter;
         s_callbackGasLimit = callbackGasLimit;
-        s_getBalanceSourceCode = getBalanceSourceCode;
+        // s_getBalanceSourceCode = getBalanceSourceCode;
         s_minWithdrawalAmount = minWithdrawalAmount;
     }
 
@@ -69,5 +69,43 @@ contract TokenizedRWA is FunctionsClient, ERC20 {
     function fulfillRequest(bytes32 /*requestId*/, bytes memory response, bytes memory /*err*/) internal override {
         s_portfolioBalance = uint256(bytes32(response));
         // removed additional logic for now due to functions gas restriction
+    }
+
+
+    /*//////////////////////////////////////////////////////////////
+                           EXTERNAL FUNCTIONS
+    //////////////////////////////////////////////////////////////*/
+
+    function setDonId(bytes32 donId) external /*onlyOwner*/ {
+        s_donId = donId;
+    }
+
+    function setDonSecrets(uint8 slotId, uint64 version) external /*onlyOwner*/ {
+        s_donHostedSecretsSlotID = slotId;
+        s_donHostedSecretsVersion = version;
+    }
+
+    function setSubscriptionId(uint64 subId) external /*onlyOwner*/ {
+        s_subscriptionId = subId;
+    }
+
+    function setFunctionsRouter(address newRouter) external /*onlyOwner*/ {
+        s_functionsRouter = newRouter;
+    }
+
+    function setCallbackGasLimit(uint32 gasLimit) external /*onlyOwner*/ {
+        s_callbackGasLimit = gasLimit;
+    }
+
+    function setPriceFeed(string memory ticker, address priceFeed) external /*onlyOwner*/ {
+        s_priceFeed[ticker] = priceFeed;
+    }
+
+    function setSourceCode(string memory balanceSourceCode) external /*onlyOwner*/ {
+        s_getBalanceSourceCode = balanceSourceCode;
+    }
+
+    function setMinWithdrawalAmount(uint256 amount) external /*onlyOwner*/ {
+        s_minWithdrawalAmount = amount;
     }
 }
