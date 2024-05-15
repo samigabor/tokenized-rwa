@@ -12,26 +12,22 @@ contract DeployTokenizedRWA is Script {
 
     function run() external {
         bytes32 donId = hex"66756e2d657468657265756d2d7365706f6c69612d3100000000000000000000";
-        uint8 donHostedSecretsSlotID = 0;
-        uint64 donHostedSecretsVersion = 1715713702;
         uint64 subscriptionId = 2656;
         address functionsRouter = 0xb83E47C2bC239B3bf370bc41e1459A34b41238D0;
         uint32 callbackGasLimit = 300000;
-        string memory getBalanceSourceCode = vm.readFile(alpacaBalance);
+        string memory balanceSourceCode = vm.readFile(alpacaBalance);
         uint256 minWithdrawalAmount = 100e18;
 
         vm.startBroadcast();
         TokenizedRWA rwa = new TokenizedRWA(
             donId,
-            donHostedSecretsSlotID,
-            donHostedSecretsVersion,
             subscriptionId,
             functionsRouter,
             callbackGasLimit,
-            // getBalanceSourceCode,
+            // balanceSourceCode,
             minWithdrawalAmount
         );
-        rwa.setSourceCode(getBalanceSourceCode);
+        rwa.setSourceCode(balanceSourceCode);
         vm.stopBroadcast();
         console2.log("TokenizedRWA deployed at:", address(rwa));
     }

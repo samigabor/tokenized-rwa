@@ -14,8 +14,6 @@ contract TokenizedRWA is FunctionsClient, ERC20 {
 
     /// Chainlink API
     bytes32 public s_donId;
-    uint8 public s_donHostedSecretsSlotID; // slotIdNumber
-    uint64 public s_donHostedSecretsVersion;
     // bytes encryptedSecretsUrls; // not needed since we're using one of the public gateways
     uint64 public s_subscriptionId;
     address public s_functionsRouter;
@@ -23,7 +21,7 @@ contract TokenizedRWA is FunctionsClient, ERC20 {
     mapping(string ticker => address priceFeed) s_priceFeed;
 
     /// Brokerage API
-    string public s_getBalanceSourceCode;
+    string public s_balanceSourceCode;
     uint256 public s_minWithdrawalAmount;
 
     uint256 public s_portfolioBalance;
@@ -31,31 +29,30 @@ contract TokenizedRWA is FunctionsClient, ERC20 {
 
     constructor(
         bytes32 donId,
-        uint8 donHostedSecretsSlotID,
-        uint64 donHostedSecretsVersion,
         uint64 subscriptionId,
         address functionsRouter,
         uint32 callbackGasLimit,
-        // string memory getBalanceSourceCode,
+        // string memory balanceSourceCode, // removed from constructor to simplify etherscan verification
         uint256 minWithdrawalAmount
     ) FunctionsClient(functionsRouter) ERC20("dTSLA", "Tokenized Tesla") {
         s_donId = donId;
-        s_donHostedSecretsSlotID = donHostedSecretsSlotID;
-        s_donHostedSecretsVersion = donHostedSecretsVersion;
         s_subscriptionId = subscriptionId;
         s_functionsRouter = functionsRouter;
         s_callbackGasLimit = callbackGasLimit;
-        // s_getBalanceSourceCode = getBalanceSourceCode;
+        // s_balanceSourceCode = balanceSourceCode;
         s_minWithdrawalAmount = minWithdrawalAmount;
     }
 
     /**
      * Send HTTP request to query the Brockerage portfolio balance
      */
-    function sendQueryPortfolioBalanceRequest() external returns(bytes32 requestId) {
+    function sendQueryPortfolioBalanceRequest(
+            uint8 donHostedSecretsSlotID,
+            uint64 donHostedSecretsVersion
+        ) external returns(bytes32 requestId) {
         FunctionsRequest.Request memory req;
-        req.initializeRequestForInlineJavaScript(s_getBalanceSourceCode);
-        req.addDONHostedSecrets(s_donHostedSecretsSlotID, s_donHostedSecretsVersion);
+        req.initializeRequestForInlineJavaScript(s_balanceSourceCode);
+        req.addDONHostedSecrets(donHostedSecretsSlotID, donHostedSecretsVersion);
 
         requestId = _sendRequest(
             req.encodeCBOR(),
@@ -80,11 +77,6 @@ contract TokenizedRWA is FunctionsClient, ERC20 {
         s_donId = donId;
     }
 
-    function setDonSecrets(uint8 slotId, uint64 version) external /*onlyOwner*/ {
-        s_donHostedSecretsSlotID = slotId;
-        s_donHostedSecretsVersion = version;
-    }
-
     function setSubscriptionId(uint64 subId) external /*onlyOwner*/ {
         s_subscriptionId = subId;
     }
@@ -102,7 +94,7 @@ contract TokenizedRWA is FunctionsClient, ERC20 {
     }
 
     function setSourceCode(string memory balanceSourceCode) external /*onlyOwner*/ {
-        s_getBalanceSourceCode = balanceSourceCode;
+        s_balanceSourceCode = balanceSourceCode;
     }
 
     function setMinWithdrawalAmount(uint256 amount) external /*onlyOwner*/ {
