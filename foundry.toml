@@ -7,3 +7,13 @@ remappings=[
     "@chainlink/contracts/=lib/chainlink-brownie-contracts/contracts/",
     "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
 ]
+
+fs_permissions = [{ access = "read", path = "./" }]
+evm_version = "cancun"
+solc = "0.8.25"
+
+[etherscan]
+sepolia = { key = "${ETHERSCAN_KEY}" }
+
+[rpc_endpoints]
+sepolia = "${SEPOLIA_RPC_URL}"
