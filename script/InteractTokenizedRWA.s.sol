@@ -7,7 +7,7 @@ import { console2 } from "forge-std/console2.sol";
 
 address constant CONTRACT_ADDRESS = 0x48336990d70fCb7E88a7191b56065A5Ca60ab698;
 uint8 constant DON_HOSTED_SECRETS_SLOT_ID = 0;
-uint64 constant DON_HOSTED_SECRETS_VERSION = 1715805100;
+uint64 constant DON_HOSTED_SECRETS_VERSION = 1715927504;
 
 contract InteractTokenizedRWA is Script {
 

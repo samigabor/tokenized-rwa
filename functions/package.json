@@ -6,7 +6,7 @@
   "license": "ISC",
   "main": "index.js",
   "scripts": {
-    "simulate": "node ./simulators/alpacaMintSimulator.js",
+    "simulate": "node ./simulators/alpacaBalanceSimulator.js",
     "uploadSecrets": "source ../.env && node ./uploadSecrets.js"
   },
   "dependencies": {
